@@ -1,0 +1,29 @@
+<section ng-controller="EldersController" ng-init="findOne()" ng-cloak>
+  <div class="page-header">
+    <h1>{{elder.name}}</h1>
+    <h3>{{elder._residence.address}}</h3>
+    <div ng-show="elder._residence.location">
+      <img ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{elder._residence.location[1]}},{{elder._residence.location[0]}}&zoom=14&size=300x300&markers={{elder._residence.location[1]}},{{elder._residence.location[0]}}&key=AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE" style="width: 300px; height: 300px">
+    </div>
+    <h3>性別：{{elder.gender === 'M' && '男性' || elder.gender === 'F' && '女性' || ''}}</h3>
+    <h3>生日：{{elder.birthday | date:'yyyy/MM/dd'}}</h3>
+    <h3>電話：{{elder.phone}}</h3>
+    <h3>緊急聯絡人：{{elder.emergency_contact.name}} 電話：{{elder.emergency_contact.phone}} 關係：{{elder.emergency_contact.relationship}}</h3>
+  </div>
+  <div class="pull-right" ng-show="authentication.user._id == elder.user._id">
+    <a class="btn btn-primary" ui-sref="elders.edit({elderId: elder._id})">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" ng-click="remove();">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="elder.created | date:'mediumDate'"></span>
+      by
+      <span ng-bind="elder._creator.displayName"></span>
+    </em>
+  </small>
+</section>

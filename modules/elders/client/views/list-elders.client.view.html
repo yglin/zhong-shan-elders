@@ -1,0 +1,21 @@
+<section ng-controller="EldersController" ng-init="find()">
+  <div class="page-header">
+    <h1>Elders</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="elder in elders" ui-sref="elders.view({elderId: elder._id})" class="list-group-item">
+<!--       <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="elder.created | date:'mediumDate'"></span>
+        by
+        <span ng-bind="elder.user.displayName"></span>
+      </small>
+ -->  
+      <h4 class="list-group-item-heading" ng-bind="elder.name"></h4>
+      <p class="list-group-item-text" ng-bind="elder._residence.address"></p>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="elders.$resolved && !elders.length">
+    No elders yet, why don't you <a ui-sref="elders.create">create one</a>?
+  </div>
+</section>

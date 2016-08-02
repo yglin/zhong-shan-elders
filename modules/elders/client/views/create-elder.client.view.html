@@ -1,0 +1,77 @@
+<section ng-controller="EldersController">
+  <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2">
+    <form name="elderForm" class="form-horizontal" ng-submit="create(elderForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label for="name">姓名</label>
+          <input name="name" type="text" ng-model="elder.name" id="name" class="form-control" placeholder="姓名" required>
+          <div ng-messages="elderForm.name.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">請填入姓名</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="radio-inline">
+            <input type="radio" name="gender" ng-model='elder.gender' value='M' checked>
+            男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" ng-model='elder.gender' value='F'>
+            女
+          </label>
+        </div>
+        <div class="form-group">
+          <label for='birthday'>生日：</label>
+          <input type="date" name="birthday" class="form-control" ng-model='elder.birthday'>
+        </div>
+        <div class="form-group">
+          <label for='phone'>電話：</label>
+          <input type='text' name='phone' class="form-control" ng-model='elder.phone'></input>
+        </div>
+        <div class="form-group" show-errors>
+          <label for="address">住址：</label>
+          <input name="address" type="text" ng-model="elder._residence.address" id="address" class="form-control" placeholder="住址" required ng-change="clearGeocode()">
+          <div ng-messages="elderForm.address.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">請填入住址</p>
+          </div>
+          <div ng-show="elder._residence.address">
+            <div class='row'>
+              <div class='col-sm-8'>
+                <h4>{{elder._residence.address}}</h4>
+              </div>
+              <div class='col-sm-1'>
+                <button type='button' class='btn btn-primary' ng-click='geocode(elder._residence.address)'>定位</button>
+              </div>
+            </div>
+            <br>
+            <div ng-show='geocodeResults.length > 0'>
+              <div class='row'>
+                <div class="col-sm-4">
+                  <button type='button' class='btn btn-warning' ng-click="clearGeocode()">找不到正確的位置，取消定位</button>
+                </div>
+                <div class="col-sm-2">
+                  <button type='button' class='btn btn-default' ng-show="geocodeResults.length > 1" ng-click="nextLocation()">下一個</button>                  
+                </div>
+              </div>
+              <img ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{elder._residence.location[1]}},{{elder._residence.location[0]}}&zoom=14&size=300x300&markers={{elder._residence.location[1]}},{{elder._residence.location[0]}}&key=AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE" style="width: 300px; height: 300px">              
+            </div>
+          </div>
+      </div>
+          <div class="form-group" style='border: solid 1px darkgrey;padding: 10px;'>
+          <h4>緊急聯絡人</h4>
+          <label for='emergency_contact_name'>姓名：</label>
+          <input type='text' name='emergency_contact_name' class="form-control" ng-model='elder.emergency_contact.name'></input>
+          <label for='emergency_contact_phone'>電話：</label>
+          <input type='text' name='emergency_contact_phone' class="form-control" ng-model='elder.emergency_contact.phone'></input>
+          <label for='emergency_contact_relationship'>關係：</label>
+          <input type='text' name='emergency_contact_relationship' class="form-control" ng-model='elder.emergency_contact.relationship'></input>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-default" value='送出資料'>
+        </div>
+        <div ng-show="error" class="text-danger">
+          <strong ng-bind="error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
